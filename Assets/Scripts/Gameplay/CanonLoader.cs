@@ -1,16 +1,21 @@
 using UnityEngine;
 
-public class CanonLoader : MonoBehaviour
+public class CanonLoader : MonoBehaviour, ILoadable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [field: SerializeField]
+    public bool alreadyLoad { get; set; }
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (alreadyLoad == false && other.GetComponent<ILoadable>() != null)
+        {
+            other.GetComponent<ILoadable>().Load(true);
+            Load(true);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Load(bool isLoaded)
     {
-        
+        alreadyLoad = isLoaded;
     }
 }

@@ -1,16 +1,37 @@
 using UnityEngine;
 
-public class CanonController : MonoBehaviour
+public class CanonController : MonoBehaviour, IShootable, IInteractable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField]
+    private CanonLoader m_canonLoader;
+
+    [SerializeField]
+    private GameObject m_muzzle;
+
+    [SerializeField]
+    private GameObject m_projectile;
+
+    private void Start()
     {
-        
+        m_canonLoader = GetComponent<CanonLoader>();
     }
 
-    // Update is called once per frame
+    public void Interact(IPlayer player)
+    {
+
+    }
     void Update()
     {
-        
+        //Shoot();
+    }
+
+    public void Shoot()
+    {
+        if (m_canonLoader == null) return;
+        if (m_canonLoader.alreadyLoad == true)
+        {
+            Instantiate(m_projectile, m_muzzle.transform.position, Quaternion.identity, null);
+            m_canonLoader.GetComponent<ILoadable>().Load(false);
+        }
     }
 }
