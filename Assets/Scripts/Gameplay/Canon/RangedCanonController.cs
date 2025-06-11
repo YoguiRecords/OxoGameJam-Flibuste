@@ -36,8 +36,8 @@ public class RangedCanonController : MonoBehaviour, IShootable, IInteractable
             {
                 Instantiate(m_projectile, m_muzzle[i].transform.position, Quaternion.identity, null);
             }
+            m_canonLoader.currentBallStock = 0;
             m_canonLoader.GetComponent<ILoadable>().Load(false);
-
         }
     }
 }

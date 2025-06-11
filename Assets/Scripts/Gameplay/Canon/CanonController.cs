@@ -22,7 +22,7 @@ public class CanonController : MonoBehaviour, IShootable, IInteractable
     }
     void Update()
     {
-        //Shoot();
+        Shoot();
     }
 
     public void Shoot()
