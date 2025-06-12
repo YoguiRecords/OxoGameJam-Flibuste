@@ -7,4 +7,6 @@ public interface IPlayer
     public Transform GetHands();
 
     public bool CanPickUp();
+
+    public void SetUpPosition(Transform pos);
 }

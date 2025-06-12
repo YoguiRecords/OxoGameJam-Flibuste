@@ -21,6 +21,7 @@ public class CanonLoader : MonoBehaviour, ILoadable
             }
             other.GetComponent<ILoadable>().Load(true);
             Load(true);
+            currentBallStock = 0;
         }
     }
 

@@ -183,7 +183,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 47e542428617fb845a4b882c2b0a699a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -535,7 +535,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1249226252277564651, guid: 7b40b67f0bbf56d429cf02403ff4f80e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.69
+      value: 6.33
       objectReference: {fileID: 0}
     - target: {fileID: 6127210874414314794, guid: 7b40b67f0bbf56d429cf02403ff4f80e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -583,7 +583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8277957522638933469, guid: 7b40b67f0bbf56d429cf02403ff4f80e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -892,7 +892,7 @@ Transform:
   m_GameObject: {fileID: 2106336364}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.457, z: -0.74}
+  m_LocalPosition: {x: 0, y: 0.457, z: -0.811}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -938,6 +938,10 @@ PrefabInstance:
       propertyPath: m_canonLoader
       value: 
       objectReference: {fileID: 1387538232}
+    - target: {fileID: 1806799561924599721, guid: ed545b76d3c655945820fa66ba4dc766, type: 3}
+      propertyPath: m_maxBallstock
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2911492991829983796, guid: ed545b76d3c655945820fa66ba4dc766, type: 3}
       propertyPath: m_Name
       value: Canon

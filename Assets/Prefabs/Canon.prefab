@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2385765499077945995}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.707106, z: 0, w: 0.7071076}
-  m_LocalPosition: {x: 0, y: 0.871, z: 1.78}
+  m_LocalPosition: {x: -0, y: 0.853, z: 1.901}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -43,9 +43,10 @@ GameObject:
   - component: {fileID: 3112560301451345706}
   - component: {fileID: 1647925970749460275}
   - component: {fileID: -4720984604429081854}
+  - component: {fileID: 1806799561924599721}
+  - component: {fileID: 9003047469007335781}
   - component: {fileID: 2449690955979314185}
   - component: {fileID: 2378184391536660766}
-  - component: {fileID: 1806799561924599721}
   m_Layer: 0
   m_Name: Canon
   m_TagString: Untagged
@@ -67,6 +68,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1716860654871771946}
+  - {fileID: 486467687279388412}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &3112560301451345706
@@ -134,9 +136,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1f2beaf90daeb4daf327f85b437f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_canonLoader: {fileID: 0}
   m_muzzle: {fileID: 2385765499077945995}
   m_projectile: {fileID: 5640750911184390270, guid: 6408c5568b9a9b742b9bfda2ea8ed5d6, type: 3}
+  m_shootPos: {fileID: 486467687279388412}
+--- !u!114 &1806799561924599721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911492991829983796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8c989938c728c34994c3d4fee21115c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <alreadyLoad>k__BackingField: 0
+  m_maxBallstock: 1
+  <currentBallStock>k__BackingField: 0
+--- !u!114 &9003047469007335781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911492991829983796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3cdcf5f388e6194dbb1e7261d9a32e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 15
 --- !u!65 &2449690955979314185
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -185,16 +215,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1806799561924599721
-MonoBehaviour:
+--- !u!1 &8566909565313513989
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2911492991829983796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8c989938c728c34994c3d4fee21115c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <alreadyLoad>k__BackingField: 0
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 486467687279388412}
+  m_Layer: 0
+  m_Name: ShootPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &486467687279388412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8566909565313513989}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.588, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7301127044817738121}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

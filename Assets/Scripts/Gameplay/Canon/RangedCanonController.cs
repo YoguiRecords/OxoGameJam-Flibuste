@@ -17,11 +17,6 @@ public class RangedCanonController : MonoBehaviour, IShootable, IInteractable
         m_canonLoader = GetComponent<CanonLoader>();
     }
 
-    void Update()
-    {
-       
-    }
-
     public void Interact(IPlayer player)
     {
         

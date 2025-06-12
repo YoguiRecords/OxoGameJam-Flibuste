@@ -150,6 +150,8 @@ GameObject:
   - component: {fileID: 2434823783198403486}
   - component: {fileID: 3241953307257900801}
   - component: {fileID: 3086881403764645142}
+  - component: {fileID: -561488082646352197}
+  - component: {fileID: 8784865343248109273}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -196,7 +198,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -222,6 +224,33 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.08
   m_Center: {x: 0, y: 0.09, z: 0}
+--- !u!114 &-561488082646352197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5640750911184390270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97eeeb4f1553fa046817a1b972f77257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_transformMovement: {fileID: 0}
+--- !u!114 &8784865343248109273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5640750911184390270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2020410fceaab444b9b7b7c0de59e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CurrentSpeed>k__BackingField: 1
+  <MaxSpeed>k__BackingField: 1
 --- !u!1 &6827697600290339988
 GameObject:
   m_ObjectHideFlags: 0
