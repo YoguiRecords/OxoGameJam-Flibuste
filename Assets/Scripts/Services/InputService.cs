@@ -18,7 +18,7 @@ public class InputService : MonoBehaviour
     public static event System.Action OnCharacterInteract;
     public static event System.Action<bool> OnCharacterSprint;
 
-    public static event System.Action<float> OnBoatSteer;
+    public static event System.Action<Vector2> OnBoatSteer;
     public static event System.Action OnBoatCancel;
     public static event System.Action OnBoatToggleSails;
 
@@ -59,8 +59,8 @@ public class InputService : MonoBehaviour
         playerControls.Character.Sprint.canceled += _ => OnCharacterSprint?.Invoke(false);
 
         // Boat callbacks
-        playerControls.Boat.Steer.performed += ctx => OnBoatSteer?.Invoke(ctx.ReadValue<float>());
-        playerControls.Boat.Steer.canceled += _ => OnBoatSteer?.Invoke(0f);
+        playerControls.Boat.Steer.performed += ctx => OnBoatSteer?.Invoke(ctx.ReadValue<Vector2>());
+        playerControls.Boat.Steer.canceled += _ => OnBoatSteer?.Invoke(Vector2.zero);
         playerControls.Boat.Cancel.performed += _ => OnBoatCancel?.Invoke();
         playerControls.Boat.ToggleSails.performed += _ => OnBoatToggleSails?.Invoke();
 

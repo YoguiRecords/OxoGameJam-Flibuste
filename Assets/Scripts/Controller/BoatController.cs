@@ -19,7 +19,7 @@ public class BoatController : MonoBehaviour
     [SerializeField] private AudioSource engineSound;
 
     private Rigidbody rb;
-    private float steerInput = 0f;
+    private Vector2 steerInput = Vector2.zero;
     private Vector2 moveInput = Vector2.zero;
 
     private float currentMaxSpeed;
@@ -38,7 +38,6 @@ public class BoatController : MonoBehaviour
     private void OnEnable()
     {
         InputService.OnBoatSteer += HandleSteer;
-        InputService.OnCharacterMove += HandleMove;
         InputService.OnBoatCancel += HandleCancel;
         InputService.OnBoatToggleSails += HandleToggleSails;
     }
@@ -46,26 +45,20 @@ public class BoatController : MonoBehaviour
     private void OnDisable()
     {
         InputService.OnBoatSteer -= HandleSteer;
-        InputService.OnCharacterMove -= HandleMove;
         InputService.OnBoatCancel -= HandleCancel;
         InputService.OnBoatToggleSails -= HandleToggleSails;
     }
 
     private void FixedUpdate()
     {
-        ApplyMovement();
+        //ApplyMovement();
         ApplyRotation();
         UpdateEngineSound();
     }
 
-    private void HandleSteer(float value)
+    private void HandleSteer(Vector2 value)
     {
         steerInput = value;
-    }
-
-    private void HandleMove(Vector2 value)
-    {
-        moveInput = value;
     }
 
     private void HandleCancel()
@@ -85,28 +78,28 @@ public class BoatController : MonoBehaviour
         Debug.Log($"[BoatController] Sails {(sailsDeployed ? "deployed" : "furled")}");
     }
 
-    private void ApplyMovement()
-    {
-        float throttle = moveInput.y;
-        if (Mathf.Abs(throttle) < 0.1f) return;
+    //private void ApplyMovement()
+    //{
+    //    float throttle = moveInput.y;
+    //    if (Mathf.Abs(throttle) < 0.1f) return;
 
-        float speedMultiplier = throttle < 0 ? reverseSpeedMultiplier : 1f;
-        float targetSpeed = currentMaxSpeed * speedMultiplier;
+    //    float speedMultiplier = throttle < 0 ? reverseSpeedMultiplier : 1f;
+    //    float targetSpeed = currentMaxSpeed * speedMultiplier;
 
-        Vector3 forward = transform.forward * throttle * acceleration * Time.fixedDeltaTime;
+    //    Vector3 forward = transform.forward * throttle * acceleration * Time.fixedDeltaTime;
 
-        if (rb.linearVelocity.magnitude < targetSpeed || Vector3.Dot(rb.linearVelocity.normalized, forward.normalized) < 0)
-        {
-            rb.AddForce(forward, ForceMode.VelocityChange);
-        }
-    }
+    //    if (rb.linearVelocity.magnitude < targetSpeed || Vector3.Dot(rb.linearVelocity.normalized, forward.normalized) < 0)
+    //    {
+    //        rb.AddForce(forward, ForceMode.VelocityChange);
+    //    }
+    //}
 
     private void ApplyRotation()
     {
-        if (Mathf.Abs(steerInput) < 0.1f) return;
+        if (Mathf.Abs(steerInput.x) < 0.1f) return;
 
         float speedFactor = Mathf.Clamp01(rb.linearVelocity.magnitude / maxSpeed);
-        float turn = steerInput * turnSpeed * speedFactor * Time.fixedDeltaTime;
+        float turn = steerInput.x * turnSpeed * speedFactor * Time.fixedDeltaTime;
 
         rb.MoveRotation(rb.rotation * Quaternion.Euler(0f, turn, 0f));
     }
