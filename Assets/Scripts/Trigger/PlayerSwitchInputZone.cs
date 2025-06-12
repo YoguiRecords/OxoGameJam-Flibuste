@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerInteractZone : MonoBehaviour
+public class PlayerSwitchInputZone : MonoBehaviour
 {
     [field: SerializeField]
     public GameObject Icon { get; private set; }

@@ -1,14 +1,19 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class CharacterController : MonoBehaviour
+public class CharacterController : MonoBehaviour, IPlayer
 {
+    private IInteractable interactable;
+    private IDropable objectOnTheHands;
+
+    [Header("hand settings")]
+    [SerializeField] private Transform m_hands;
+
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float groundCheckDistance = 0.1f;
     [SerializeField] private LayerMask groundMask = 1;
-
 
     [Header("Sprint Settings")]
     [SerializeField] private float sprintMultiplier = 1.5f;
@@ -75,7 +80,13 @@ public class CharacterController : MonoBehaviour
 
     private void HandleInteract()
     {
-        Debug.Log("[CharacterController] Interact pressed");
+        //Debug.Log("[CharacterController] Interact pressed");
+        //if (interactable != null)
+        //{
+        //    Debug.Log("[CharacterController] AAAAAAAAAAHH");
+        //    interactable.Interact(this);
+        //}
+        //else Debug.Log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOH");
     }
 
     private void ApplyMovement()
@@ -107,10 +118,32 @@ public class CharacterController : MonoBehaviour
         isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance + 0.1f, groundMask);
     }
 
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = isGrounded ? Color.green : Color.red;
         Gizmos.DrawRay(transform.position, Vector3.down * (groundCheckDistance + 0.1f));
+    }
+
+
+
+    public void SetObjectOnTheHand(IDropable obj)
+    {
+        objectOnTheHands = obj;
+        (objectOnTheHands as CanonBall).Initialize(GetHands());
+    }
+
+    public Transform GetHands()
+    {
+        return m_hands;
+    }
+
+    public bool CanPickUp()
+    {
+        return objectOnTheHands is null;
+    }
+
+    public void SetUpPosition(Transform pos)
+    {
+        transform.position = pos.position;
     }
 }
