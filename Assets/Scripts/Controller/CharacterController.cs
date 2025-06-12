@@ -33,18 +33,20 @@ public class CharacterController : MonoBehaviour
 
     private void OnEnable()
     {
-        InputService.OnCharacterMove += HandleMove;
-        InputService.OnCharacterJump += HandleJump;
-        InputService.OnCharacterSprint += HandleSprint;
-        InputService.OnCharacterInteract += HandleInteract;
+        InputService inputService = GameServiceLocator.Get<InputService>();
+        inputService.OnCharacterMove += HandleMove;
+        inputService.OnCharacterJump += HandleJump;
+        inputService.OnCharacterSprint += HandleSprint;
+        inputService.OnCharacterInteract += HandleInteract;
     }
 
     private void OnDisable()
     {
-        InputService.OnCharacterMove -= HandleMove;
-        InputService.OnCharacterJump -= HandleJump;
-        InputService.OnCharacterSprint -= HandleSprint;
-        InputService.OnCharacterInteract -= HandleInteract;
+        InputService inputService = GameServiceLocator.Get<InputService>();
+        inputService.OnCharacterMove -= HandleMove;
+        inputService.OnCharacterJump -= HandleJump;
+        inputService.OnCharacterSprint -= HandleSprint;
+        inputService.OnCharacterInteract -= HandleInteract;
     }
 
     private void FixedUpdate()
