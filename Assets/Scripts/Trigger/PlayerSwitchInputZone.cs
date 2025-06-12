@@ -6,9 +6,14 @@ public class PlayerSwitchInputZone : MonoBehaviour
     [field: SerializeField]
     public GameObject Icon { get; private set; }
 
+    private void Awake()
+    {
+        ShowIcon(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        IPlayer player = GetComponent<IPlayer>();
+        IPlayer player = other.GetComponent<IPlayer>();
         if(player is not null)
         {
             GameServiceLocator.Get<InputService>().OnCharacterInteract += PlayerInteractAction;
@@ -36,7 +41,7 @@ public class PlayerSwitchInputZone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        IPlayer player = GetComponent<IPlayer>();
+        IPlayer player = other.GetComponent<IPlayer>();
         if (player is not null)
         {
             GameServiceLocator.Get<InputService>().OnCharacterInteract -= PlayerInteractAction;

@@ -9,4 +9,6 @@ public interface IPlayer
     public bool CanPickUp();
 
     public void SetUpPosition(Transform pos);
+
+    public Transform GetTransform();
 }
