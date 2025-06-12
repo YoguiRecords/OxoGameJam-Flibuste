@@ -28,8 +28,9 @@ public class CanonBallPile : MonoBehaviour, IInteractable
         {
             m_player = other.GetComponent<IPlayer>();
             Debug.Log("WARNING : un objet en contact : " + other.gameObject.name);
-            //InputService.OnCharacterInteract += playerInteract;
+            GameServiceLocator.Get<InputService>().OnCharacterInteract += playerInteract;
 
+            //InputService.OnCharacterInteract += playerInteract;
             //CanonBallPickUp(other.GetComponentInParent<IPlayer>());
         }
     }
@@ -40,7 +41,8 @@ public class CanonBallPile : MonoBehaviour, IInteractable
         {
             m_player = null;
             Debug.Log("WARNING : un objet en sort : " + other.gameObject.name);
-            //GameServiceLocator.Get<InputService>().OnCharacterInteract += playerInteract;
+            GameServiceLocator.Get<InputService>().OnCharacterInteract -= playerInteract;
+
             //InputService.OnCharacterInteract -= playerInteract;
         }
     }

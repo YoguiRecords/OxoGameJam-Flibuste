@@ -4,9 +4,9 @@ public class RotationComponent : MonoBehaviour
 {
     [field: SerializeField]
     float rotationSpeed;
-    public void Rotate(Quaternion rotation)
+    public void Rotate(Vector3 rotation)
     {
-        transform.Rotate(rotation.eulerAngles * rotationSpeed * Time.deltaTime);
+        transform.Rotate(rotation * rotationSpeed * Time.deltaTime);
 
     }
 

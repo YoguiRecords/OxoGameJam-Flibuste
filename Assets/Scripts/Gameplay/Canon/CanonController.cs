@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class CanonController : MonoBehaviour, IShootable, IInteractable, IRotable
 {
+    private IPlayer m_player;
+    private Transform m_controler;
+
     private CanonLoader m_canonLoader;
-    private RotationComponent m_rotationComponent;
+    [SerializeField] private RotationComponent m_rotationComponent;
 
     [Header("Shoot System")]
     [SerializeField]
@@ -18,7 +21,6 @@ public class CanonController : MonoBehaviour, IShootable, IInteractable, IRotabl
     private void Start()
     {
         m_canonLoader = GetComponent<CanonLoader>();
-        m_rotationComponent = GetComponent<RotationComponent>();
     }
 
     public void Interact(IPlayer player)
@@ -28,8 +30,8 @@ public class CanonController : MonoBehaviour, IShootable, IInteractable, IRotabl
 
     void Update()
     {
-        Shoot();
-        Rotate(new Quaternion(0,15,0,0));
+        //Shoot();
+        //Rotate(new Quaternion(0,15,0,0));
     }
 
     public void Shoot()
@@ -42,16 +44,32 @@ public class CanonController : MonoBehaviour, IShootable, IInteractable, IRotabl
         }
     }
 
-    public void Rotate(Quaternion rot)
-    {
-        m_rotationComponent.Rotate(rot);
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponent<IPlayer>() != null) 
+        if (other.GetComponent<IPlayer>() != null)
         {
-            other.transform.position  = m_shootPos.position;
+            GameServiceLocator.Get<InputService>().OnCharacterInteract += SetPosition;
+            m_controler = other.transform;
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+            GameServiceLocator.Get<InputService>().OnCharacterInteract -= SetPosition;
+        GameServiceLocator.Get<InputService>().OnCharacterLook -= Rotate;
+
+        m_controler = null;
+    }
+
+    private void SetPosition()
+    {
+        GameServiceLocator.Get<InputService>().OnCharacterLook += Rotate;
+        m_controler.position = m_shootPos.position;
+    }
+
+    public void Rotate(Vector2 rot)
+    {
+        m_rotationComponent.Rotate(new Vector3(-rot.y,0,0));
     }
 }
