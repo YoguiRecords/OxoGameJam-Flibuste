@@ -18,17 +18,19 @@ public class UIController : MonoBehaviour
     private void OnEnable()
     {
         SetupUI();
+        InputService inputService = GameServiceLocator.Get<InputService>();
 
-        InputService.OnUINavigate += HandleNavigate;
-        InputService.OnUISubmit += HandleSubmit;
-        InputService.OnUICancel += HandleCancel;
+        inputService.OnUINavigate += HandleNavigate;
+        inputService.OnUISubmit += HandleSubmit;
+        inputService.OnUICancel += HandleCancel;
     }
 
     private void OnDisable()
     {
-        InputService.OnUINavigate -= HandleNavigate;
-        InputService.OnUISubmit -= HandleSubmit;
-        InputService.OnUICancel -= HandleCancel;
+        InputService inputService = GameServiceLocator.Get<InputService>();
+        inputService.OnUINavigate -= HandleNavigate;
+        inputService.OnUISubmit -= HandleSubmit;
+        inputService.OnUICancel -= HandleCancel;
 
         if (lockCursorOnDisable)
         {

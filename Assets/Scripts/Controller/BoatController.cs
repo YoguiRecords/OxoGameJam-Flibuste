@@ -37,16 +37,20 @@ public class BoatController : MonoBehaviour
 
     private void OnEnable()
     {
-        InputService.OnBoatSteer += HandleSteer;
-        InputService.OnBoatCancel += HandleCancel;
-        InputService.OnBoatToggleSails += HandleToggleSails;
+        InputService inputService = GameServiceLocator.Get<InputService>();
+
+        inputService.OnBoatSteer += HandleSteer;
+        inputService.OnBoatCancel += HandleCancel;
+        inputService.OnBoatToggleSails += HandleToggleSails;
     }
 
     private void OnDisable()
     {
-        InputService.OnBoatSteer -= HandleSteer;
-        InputService.OnBoatCancel -= HandleCancel;
-        InputService.OnBoatToggleSails -= HandleToggleSails;
+        InputService inputService = GameServiceLocator.Get<InputService>();
+
+        inputService.OnBoatSteer -= HandleSteer;
+        inputService.OnBoatCancel -= HandleCancel;
+        inputService.OnBoatToggleSails -= HandleToggleSails;
     }
 
     private void FixedUpdate()

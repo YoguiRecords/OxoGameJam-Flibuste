@@ -37,12 +37,14 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
-        InputService.OnCharacterLook += HandleLook;
+        InputService inputService = GameServiceLocator.Get<InputService>();
+        inputService.OnCharacterLook += HandleLook;
     }
 
     private void OnDisable()
     {
-        InputService.OnCharacterLook -= HandleLook;
+        InputService inputService = GameServiceLocator.Get<InputService>();
+        inputService.OnCharacterLook -= HandleLook;
     }
 
     private void OnDestroy()

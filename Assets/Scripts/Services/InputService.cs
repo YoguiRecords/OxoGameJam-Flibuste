@@ -12,19 +12,19 @@ public class InputService : MonoBehaviour
     public event System.Action<string> OnActionMapChanged;
     public event System.Action<string, string> OnActionMapSwitched;
 
-    public static event System.Action<Vector2> OnCharacterMove;
-    public static event System.Action<Vector2> OnCharacterLook;
-    public static event System.Action OnCharacterJump;
-    public static event System.Action OnCharacterInteract;
-    public static event System.Action<bool> OnCharacterSprint;
+    public event System.Action<Vector2> OnCharacterMove;
+    public event System.Action<Vector2> OnCharacterLook;
+    public event System.Action OnCharacterJump;
+    public event System.Action OnCharacterInteract;
+    public event System.Action<bool> OnCharacterSprint;
 
-    public static event System.Action<Vector2> OnBoatSteer;
-    public static event System.Action OnBoatCancel;
-    public static event System.Action OnBoatToggleSails;
+    public event System.Action<Vector2> OnBoatSteer;
+    public event System.Action OnBoatCancel;
+    public event System.Action OnBoatToggleSails;
 
-    public static event System.Action<Vector2> OnUINavigate;
-    public static event System.Action OnUISubmit;
-    public static event System.Action OnUICancel;
+    public event System.Action<Vector2> OnUINavigate;
+    public event System.Action OnUISubmit;
+    public event System.Action OnUICancel;
 
     public string CurrentActionMap => currentActionMap;
     public PlayerControls Controls => playerControls;
