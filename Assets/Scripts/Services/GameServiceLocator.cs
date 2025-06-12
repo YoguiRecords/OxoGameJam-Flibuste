@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
+[DefaultExecutionOrder(-200)]
 public static class GameServiceLocator
 {
     private static readonly Dictionary<Type, ServiceEntry> services = new Dictionary<Type, ServiceEntry>();

@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CharacterController : MonoBehaviour, IPlayer
 {
-    private IInteractable interactable;
     private IDropable objectOnTheHands;
 
     [Header("hand settings")]
@@ -27,12 +26,9 @@ public class CharacterController : MonoBehaviour, IPlayer
 
     private void Awake()
     {
+        GameServiceLocator.Register<IPlayer>(this);
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-    }
-
-    private void Start()
-    {
 
     }
 
@@ -145,5 +141,10 @@ public class CharacterController : MonoBehaviour, IPlayer
     public void SetUpPosition(Transform pos)
     {
         transform.position = pos.position;
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
     }
 }

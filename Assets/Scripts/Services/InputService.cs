@@ -1,6 +1,8 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 
+
+[DefaultExecutionOrder(-100)]
 public class InputService : MonoBehaviour
 {
     [Header("Input Settings")]

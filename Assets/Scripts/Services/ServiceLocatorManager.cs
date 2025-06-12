@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[DefaultExecutionOrder(-100)]
+[DefaultExecutionOrder(-200)]
 public class ServiceLocatorManager : MonoBehaviour
 {
     private void Awake()
