@@ -6,6 +6,11 @@ public class PlayerSwitchInputZone : MonoBehaviour
     [field: SerializeField]
     public GameObject Icon { get; private set; }
 
+    [field: SerializeField]
+    public E_InputType NewInputMode { get; set; }
+
+    private E_InputType m_oldInputMode;
+
     private void Awake()
     {
         ShowIcon(false);
@@ -24,7 +29,8 @@ public class PlayerSwitchInputZone : MonoBehaviour
 
     private void BoatSteerCancelAction()
     {
-        GameServiceLocator.Get<InputService>().SwitchToActionMap("Character");
+        GameServiceLocator.Get<InputService>().SwitchToActionMap(m_oldInputMode);
+        m_oldInputMode = E_InputType.NONE;
         ShowIcon(false);
     }
 
@@ -35,7 +41,8 @@ public class PlayerSwitchInputZone : MonoBehaviour
 
     private void PlayerInteractAction()
     {
-        GameServiceLocator.Get<InputService>().SwitchToActionMap("Boat");
+        m_oldInputMode = GameServiceLocator.Get<InputService>().CurrentActionMap;
+        GameServiceLocator.Get<InputService>().SwitchToActionMap(NewInputMode);
         ShowIcon(true);
     }
 

@@ -6,13 +6,13 @@ using UnityEngine;
 public class InputService : MonoBehaviour
 {
     [Header("Input Settings")]
-    [SerializeField] private string defaultActionMap = "Character";
+    [SerializeField] private E_InputType m_defaultActionMap = E_InputType.CHARACTER;
 
-    private PlayerControls playerControls;
-    private string currentActionMap;
+    private PlayerControls m_playerControls;
+    private E_InputType m_currentActionMap = E_InputType.NONE;
 
-    public event System.Action<string> OnActionMapChanged;
-    public event System.Action<string, string> OnActionMapSwitched;
+    public event System.Action<E_InputType> OnActionMapChanged;
+    public event System.Action<E_InputType, E_InputType> OnActionMapSwitched;
 
     public event System.Action<Vector2> OnCharacterMove;
     public event System.Action<Vector2> OnCharacterLook;
@@ -24,12 +24,16 @@ public class InputService : MonoBehaviour
     public event System.Action OnBoatCancel;
     public event System.Action OnBoatToggleSails;
 
+    public event System.Action<Vector2> OnCanonAim;
+    public event System.Action OnCanonFire;
+    public event System.Action OnCanonCancel;
+
     public event System.Action<Vector2> OnUINavigate;
     public event System.Action OnUISubmit;
     public event System.Action OnUICancel;
 
-    public string CurrentActionMap => currentActionMap;
-    public PlayerControls Controls => playerControls;
+    public E_InputType CurrentActionMap => m_currentActionMap;
+    public PlayerControls Controls => m_playerControls;
 
     private void Awake()
     {
@@ -38,57 +42,52 @@ public class InputService : MonoBehaviour
             false,
             "Main Input Manager");
 
-        playerControls = new PlayerControls();
-
+        m_playerControls = new PlayerControls();
         SetupInputCallbacks();
-
-        SwitchToActionMap(defaultActionMap);
+        SwitchToActionMap(m_defaultActionMap);
     }
 
     private void SetupInputCallbacks()
     {
-        // Character callbacks
-        playerControls.Character.Move.performed += ctx => OnCharacterMove?.Invoke(ctx.ReadValue<Vector2>());
-        playerControls.Character.Move.canceled += _ => OnCharacterMove?.Invoke(Vector2.zero);
+        m_playerControls.Character.Move.performed += ctx => OnCharacterMove?.Invoke(ctx.ReadValue<Vector2>());
+        m_playerControls.Character.Move.canceled += _ => OnCharacterMove?.Invoke(Vector2.zero);
 
-        playerControls.Character.Look.performed += ctx => OnCharacterLook?.Invoke(ctx.ReadValue<Vector2>());
-        playerControls.Character.Look.canceled += _ => OnCharacterLook?.Invoke(Vector2.zero);
+        m_playerControls.Character.Look.performed += ctx => OnCharacterLook?.Invoke(ctx.ReadValue<Vector2>());
+        m_playerControls.Character.Look.canceled += _ => OnCharacterLook?.Invoke(Vector2.zero);
 
-        playerControls.Character.Jump.performed += _ => OnCharacterJump?.Invoke();
-        playerControls.Character.Interact.performed += _ => OnCharacterInteract?.Invoke();
+        m_playerControls.Character.Jump.performed += _ => OnCharacterJump?.Invoke();
+        m_playerControls.Character.Interact.performed += _ => OnCharacterInteract?.Invoke();
 
-        playerControls.Character.Sprint.performed += _ => OnCharacterSprint?.Invoke(true);
-        playerControls.Character.Sprint.canceled += _ => OnCharacterSprint?.Invoke(false);
+        m_playerControls.Character.Sprint.performed += _ => OnCharacterSprint?.Invoke(true);
+        m_playerControls.Character.Sprint.canceled += _ => OnCharacterSprint?.Invoke(false);
 
-        // Boat callbacks
-        playerControls.Boat.Steer.performed += ctx => OnBoatSteer?.Invoke(ctx.ReadValue<Vector2>());
-        playerControls.Boat.Steer.canceled += _ => OnBoatSteer?.Invoke(Vector2.zero);
-        playerControls.Boat.Cancel.performed += _ => OnBoatCancel?.Invoke();
-        playerControls.Boat.ToggleSails.performed += _ => OnBoatToggleSails?.Invoke();
+        m_playerControls.Boat.Steer.performed += ctx => OnBoatSteer?.Invoke(ctx.ReadValue<Vector2>());
+        m_playerControls.Boat.Steer.canceled += _ => OnBoatSteer?.Invoke(Vector2.zero);
+        m_playerControls.Boat.Cancel.performed += _ => OnBoatCancel?.Invoke();
+        m_playerControls.Boat.ToggleSails.performed += _ => OnBoatToggleSails?.Invoke();
 
-        // UI callbacks
-        playerControls.UI.Navigate.performed += ctx => OnUINavigate?.Invoke(ctx.ReadValue<Vector2>());
-        playerControls.UI.Submit.performed += _ => OnUISubmit?.Invoke();
-        playerControls.UI.Cancel.performed += _ => OnUICancel?.Invoke();
+        m_playerControls.UI.Navigate.performed += ctx => OnUINavigate?.Invoke(ctx.ReadValue<Vector2>());
+        m_playerControls.UI.Submit.performed += _ => OnUISubmit?.Invoke();
+        m_playerControls.UI.Cancel.performed += _ => OnUICancel?.Invoke();
     }
 
     private void OnEnable()
     {
-        playerControls?.Enable();
+        m_playerControls?.Enable();
     }
 
     private void OnDisable()
     {
-        playerControls?.Disable();
+        m_playerControls?.Disable();
     }
 
     private void OnDestroy()
     {
         ClearAllCallbacks();
-
-        playerControls?.Dispose();
+        m_playerControls?.Dispose();
         GameServiceLocator.Unregister<InputService>();
     }
+
     private void ClearAllCallbacks()
     {
         OnCharacterMove = null;
@@ -101,53 +100,72 @@ public class InputService : MonoBehaviour
         OnBoatCancel = null;
         OnBoatToggleSails = null;
 
+        OnCanonAim = null;
+        OnCanonFire = null;
+        OnCanonCancel = null;
+
         OnUINavigate = null;
         OnUISubmit = null;
         OnUICancel = null;
     }
 
-    public void SwitchToActionMap(string mapName)
+    public void SwitchToActionMap(E_InputType inputType)
     {
-        if (playerControls == null) return;
+        if (m_playerControls == null) return;
 
-        string previousMap = currentActionMap;
+        E_InputType previousMap = m_currentActionMap;
 
-        if (!string.IsNullOrEmpty(currentActionMap))
+        if (m_currentActionMap != E_InputType.NONE)
         {
-            var currentMap = GetActionMap(currentActionMap);
+            var currentMap = GetActionMap(m_currentActionMap);
             currentMap?.Disable();
         }
 
-        var newMap = GetActionMap(mapName);
+        var newMap = GetActionMap(inputType);
         if (newMap != null)
         {
             newMap.Enable();
-            currentActionMap = mapName;
+            m_currentActionMap = inputType;
 
-            OnActionMapChanged?.Invoke(mapName);
-            OnActionMapSwitched?.Invoke(previousMap, mapName);
+            OnActionMapChanged?.Invoke(inputType);
+            OnActionMapSwitched?.Invoke(previousMap, inputType);
 
-            Debug.Log($"[InputService] Switched from '{previousMap}' to '{mapName}'");
+            Debug.Log($"[InputService] Switched from '{previousMap}' to '{inputType}'");
         }
         else
         {
-            Debug.LogWarning($"[InputService] Action Map '{mapName}' not found!");
+            Debug.LogWarning($"[InputService] Action Map '{inputType}' not found!");
         }
     }
 
-    private InputActionMap GetActionMap(string mapName)
+    private InputActionMap GetActionMap(E_InputType inputType)
     {
-        return mapName.ToLower() switch
+        return inputType switch
         {
-            "character" => playerControls.Character,
-            "ui" => playerControls.UI,
-            "boat" => playerControls.Boat,
+            E_InputType.CHARACTER => m_playerControls.Character,
+            E_InputType.UI => m_playerControls.UI,
+            E_InputType.BOAT => m_playerControls.Boat,
+            E_InputType.CANON => null,
             _ => null
         };
     }
 
-    public bool IsActionMapActive(string mapName)
+    public bool IsActionMapActive(E_InputType inputType)
     {
-        return currentActionMap?.Equals(mapName, System.StringComparison.OrdinalIgnoreCase) ?? false;
+        return m_currentActionMap == inputType;
+    }
+
+    public void SwitchToActionMap(string mapName)
+    {
+        E_InputType inputType = mapName.ToLower() switch
+        {
+            "character" => E_InputType.CHARACTER,
+            "ui" => E_InputType.UI,
+            "boat" => E_InputType.BOAT,
+            "canon" => E_InputType.CANON,
+            _ => E_InputType.NONE
+        };
+
+        SwitchToActionMap(inputType);
     }
 }
