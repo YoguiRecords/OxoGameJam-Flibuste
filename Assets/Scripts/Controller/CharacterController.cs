@@ -3,33 +3,37 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CharacterController : MonoBehaviour, IPlayer
 {
-    private IDropable objectOnTheHands;
+    private IDropable m_objectOnTheHands;
 
-    [Header("hand settings")]
+    [Header("Hand Settings")]
     [SerializeField] private Transform m_hands;
 
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float jumpForce = 8f;
-    [SerializeField] private float groundCheckDistance = 0.1f;
-    [SerializeField] private LayerMask groundMask = 1;
+    [SerializeField] private float m_moveSpeed = 3f;
+    [SerializeField] private float m_jumpForce = 8f;
+    [SerializeField] private float m_groundCheckDistance = 0.1f;
+    [SerializeField] private LayerMask m_boatLayerMask = (1 << 9);
 
     [Header("Sprint Settings")]
-    [SerializeField] private float sprintMultiplier = 1.5f;
+    [SerializeField] private float m_sprintMultiplier = 1.5f;
 
-    private Rigidbody rb;
-    private bool isGrounded = true;
-    private bool isSprinting = false;
+    [Header("Boat Integration")]
+    [SerializeField] private Transform m_boatTransform;
+    [SerializeField] private float m_maxRelativeSpeed = 4f;
 
-    private Vector2 currentMoveInput;
-
+    private Rigidbody m_rb;
+    private Rigidbody m_boatRb;
+    private bool m_isGrounded = true;
+    private bool m_isSprinting = false;
+    private Vector2 m_currentMoveInput;
 
     private void Awake()
     {
         GameServiceLocator.Register<IPlayer>(this);
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        m_rb = GetComponent<Rigidbody>();
+        m_rb.freezeRotation = true;
 
+        InitializeBoatReference();
     }
 
     private void OnEnable()
@@ -53,43 +57,67 @@ public class CharacterController : MonoBehaviour, IPlayer
     private void FixedUpdate()
     {
         UpdateGroundCheck();
-        ApplyMovement();
+        ApplyRelativeMovement();
+    }
+
+    private void InitializeBoatReference()
+    {
+        if (m_boatTransform == null)
+        {
+            BoatController boat = FindFirstObjectByType<BoatController>();
+            if (boat != null)
+            {
+                m_boatTransform = boat.transform;
+                m_boatRb = boat.GetComponent<Rigidbody>();
+            }
+        }
+        else
+        {
+            m_boatRb = m_boatTransform.GetComponent<Rigidbody>();
+        }
     }
 
     private void HandleMove(Vector2 input)
     {
-        currentMoveInput = input;
+        m_currentMoveInput = input;
     }
 
     private void HandleJump()
     {
-        if (isGrounded && rb != null)
+        if (m_isGrounded && m_rb != null)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            m_rb.AddForce(Vector3.up * m_jumpForce, ForceMode.Impulse);
         }
     }
 
     private void HandleSprint(bool sprinting)
     {
-        isSprinting = sprinting;
+        m_isSprinting = sprinting;
     }
 
     private void HandleInteract()
     {
-        //Debug.Log("[CharacterController] Interact pressed");
-        //if (interactable != null)
-        //{
-        //    Debug.Log("[CharacterController] AAAAAAAAAAHH");
-        //    interactable.Interact(this);
-        //}
-        //else Debug.Log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOH");
+
     }
 
-    private void ApplyMovement()
+    private void ApplyRelativeMovement()
     {
-        if (currentMoveInput.magnitude == 0) return;
+        if (m_boatRb == null)
+        {
+            ApplyStandardMovement();
+            return;
+        }
 
-        float currentSpeed = isSprinting ? moveSpeed * sprintMultiplier : moveSpeed;
+        Vector3 boatVelocity = m_boatRb.linearVelocity;
+
+        if (m_currentMoveInput.magnitude == 0)
+        {
+            m_rb.linearVelocity = new Vector3(boatVelocity.x, m_rb.linearVelocity.y, boatVelocity.z);
+            return;
+        }
+
+        float currentSpeed = m_isSprinting ? m_moveSpeed * m_sprintMultiplier : m_moveSpeed;
+        currentSpeed = Mathf.Min(currentSpeed, m_maxRelativeSpeed);
 
         var cameraController = GameServiceLocator.Get<CameraController>();
         Vector3 cameraForward = cameraController != null ?
@@ -102,30 +130,78 @@ public class CharacterController : MonoBehaviour, IPlayer
         cameraForward.Normalize();
         cameraRight.Normalize();
 
-        Vector3 moveDirection = cameraRight * currentMoveInput.x + cameraForward * currentMoveInput.y;
-        Vector3 targetVelocity = moveDirection * currentSpeed;
-        Vector3 newVelocity = new Vector3(targetVelocity.x, rb.linearVelocity.y, targetVelocity.z);
+        Vector3 relativeMovement = cameraRight * m_currentMoveInput.x + cameraForward * m_currentMoveInput.y;
+        Vector3 relativeVelocity = relativeMovement * currentSpeed;
 
-        rb.linearVelocity = newVelocity;
+        Vector3 finalVelocity = new Vector3(
+            boatVelocity.x + relativeVelocity.x,
+            m_rb.linearVelocity.y,
+            boatVelocity.z + relativeVelocity.z
+        );
+
+        float maxTotalSpeed = boatVelocity.magnitude + m_maxRelativeSpeed;
+        if (finalVelocity.magnitude > maxTotalSpeed)
+        {
+            Vector3 horizontalVelocity = new Vector3(finalVelocity.x, 0f, finalVelocity.z);
+            horizontalVelocity = horizontalVelocity.normalized * maxTotalSpeed;
+            finalVelocity = new Vector3(horizontalVelocity.x, finalVelocity.y, horizontalVelocity.z);
+        }
+
+        m_rb.linearVelocity = finalVelocity;
+    }
+
+    private void ApplyStandardMovement()
+    {
+        if (m_currentMoveInput.magnitude == 0) return;
+
+        float currentSpeed = m_isSprinting ? m_moveSpeed * m_sprintMultiplier : m_moveSpeed;
+
+        var cameraController = GameServiceLocator.Get<CameraController>();
+        Vector3 cameraForward = cameraController != null ?
+            cameraController.transform.forward : transform.forward;
+        Vector3 cameraRight = cameraController != null ?
+            cameraController.transform.right : transform.right;
+
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        Vector3 moveDirection = cameraRight * m_currentMoveInput.x + cameraForward * m_currentMoveInput.y;
+        Vector3 targetVelocity = moveDirection * currentSpeed;
+        Vector3 newVelocity = new Vector3(targetVelocity.x, m_rb.linearVelocity.y, targetVelocity.z);
+
+        m_rb.linearVelocity = newVelocity;
     }
 
     private void UpdateGroundCheck()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance + 0.1f, groundMask);
+        m_isGrounded = Physics.Raycast(transform.position, Vector3.down,
+                                     m_groundCheckDistance + 0.1f, m_boatLayerMask);
+    }
+
+    public void SetBoatReference(Transform boatTransform)
+    {
+        m_boatTransform = boatTransform;
+        m_boatRb = boatTransform.GetComponent<Rigidbody>();
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = isGrounded ? Color.green : Color.red;
-        Gizmos.DrawRay(transform.position, Vector3.down * (groundCheckDistance + 0.1f));
+        Gizmos.color = m_isGrounded ? Color.green : Color.red;
+        Gizmos.DrawRay(transform.position, Vector3.down * (m_groundCheckDistance + 0.1f));
+
+        if (m_boatTransform != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, m_boatTransform.position);
+        }
     }
-
-
 
     public void SetObjectOnTheHand(IDropable obj)
     {
-        objectOnTheHands = obj;
-        (objectOnTheHands as CanonBall).Initialize(GetHands());
+        m_objectOnTheHands = obj;
+        (m_objectOnTheHands as CanonBall).Initialize(GetHands());
     }
 
     public Transform GetHands()
@@ -135,7 +211,7 @@ public class CharacterController : MonoBehaviour, IPlayer
 
     public bool CanPickUp()
     {
-        return objectOnTheHands is null;
+        return m_objectOnTheHands is null;
     }
 
     public void SetUpPosition(Transform pos)

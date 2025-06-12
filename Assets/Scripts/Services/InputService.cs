@@ -1,6 +1,5 @@
-using UnityEngine.InputSystem;
+﻿using UnityEngine.InputSystem;
 using UnityEngine;
-
 
 [DefaultExecutionOrder(-100)]
 public class InputService : MonoBehaviour
@@ -109,17 +108,17 @@ public class InputService : MonoBehaviour
         OnUICancel = null;
     }
 
+    // ✅ CORRECTION : Méthode corrigée selon search results [1]
     public void SwitchToActionMap(E_InputType inputType)
     {
         if (m_playerControls == null) return;
 
         E_InputType previousMap = m_currentActionMap;
 
-        if (m_currentActionMap != E_InputType.NONE)
-        {
-            var currentMap = GetActionMap(m_currentActionMap);
-            currentMap?.Disable();
-        }
+        // ✅ Désactiver TOUS les ActionMaps avant d'en activer un seul
+        m_playerControls.Character.Disable();
+        m_playerControls.Boat.Disable();
+        m_playerControls.UI.Disable();
 
         var newMap = GetActionMap(inputType);
         if (newMap != null)
