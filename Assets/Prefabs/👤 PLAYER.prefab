@@ -1810,17 +1810,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 598663c6915d70443ad2d3e085be68f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 8
+  moveSpeed: 4
+  jumpForce: 5
   groundCheckDistance: 0.1
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  lookSensitivity: 2
-  playerCamera: {fileID: 0}
-  tpsOffset: {x: 0, y: 2, z: -4}
-  fpsOffset: {x: 0, y: 1.6, z: 0}
-  sprintMultiplier: 1.5
+  sprintMultiplier: 2
 --- !u!1 &2611540022936646835
 GameObject:
   m_ObjectHideFlags: 0
