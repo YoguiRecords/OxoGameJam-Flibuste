@@ -62,7 +62,7 @@ public class CameraController : MonoBehaviour
     private void HandleLook(Vector2 input)
     {
         var inputService = GameServiceLocator.Get<InputService>();
-        if (inputService?.CurrentActionMap != "Character") return;
+        if (inputService?.CurrentActionMap != E_InputType.CHARACTER) return;
         if (Time.timeScale == 0f || Cursor.lockState != CursorLockMode.Locked) return;
 
         m_lookInput = input;

@@ -765,6 +765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 3855938918888562053}
+  <NewInputMode>k__BackingField: 2
 --- !u!224 &9178654233850266399
 RectTransform:
   m_ObjectHideFlags: 0
