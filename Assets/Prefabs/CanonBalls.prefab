@@ -46,8 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc41aa342fb8ca944af09fddb4720a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_canonBall: {fileID: 3381398905206105286, guid: 6617cc3f38acc824f9f7af12da4ce174, type: 3}
-  <IsTaken>k__BackingField: 0
+  m_canonBallPrefab: {fileID: 3381398905206105286, guid: 6617cc3f38acc824f9f7af12da4ce174, type: 3}
 --- !u!65 &-1123425987691129535
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63,7 +62,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

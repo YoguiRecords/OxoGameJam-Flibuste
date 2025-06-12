@@ -326,7 +326,6 @@ GameObject:
   - component: {fileID: 7977546750278892637}
   - component: {fileID: 3260279084541150849}
   - component: {fileID: 7708684878904192923}
-  - component: {fileID: 7075162149906713636}
   - component: {fileID: 5583590481095987231}
   m_Layer: 0
   m_Name: Canon
@@ -364,6 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1f2beaf90daeb4daf327f85b437f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_rotationComponent: {fileID: 1247118274389142449}
   m_muzzle: {fileID: 7467806132938095619}
   m_projectile: {fileID: 5640750911184390270, guid: 6408c5568b9a9b742b9bfda2ea8ed5d6, type: 3}
   m_shootPos: {fileID: 697768434965050119}
@@ -382,19 +382,6 @@ MonoBehaviour:
   <alreadyLoad>k__BackingField: 0
   m_maxBallstock: 1
   <currentBallStock>k__BackingField: 0
---- !u!114 &7075162149906713636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7246487771902407552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3cdcf5f388e6194dbb1e7261d9a32e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 0
 --- !u!65 &5583590481095987231
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -410,12 +397,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.9266029, z: 2.619914}
-  m_Center: {x: 0, y: 0.4389871, z: 0.44745708}
+  m_Size: {x: 1.4694134, y: 0.9266029, z: 3.2818348}
+  m_Center: {x: 0.000900805, y: 0.4389871, z: 0.11649668}
 --- !u!1 &7467806132938095619
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,6 +445,7 @@ GameObject:
   - component: {fileID: 4878690582989955362}
   - component: {fileID: 4392983646901041411}
   - component: {fileID: 8523204664669130598}
+  - component: {fileID: 1247118274389142449}
   m_Layer: 0
   m_Name: SM_Prop_Cannon_02_Barrel
   m_TagString: Untagged
@@ -534,3 +522,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1247118274389142449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8353603126301988162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3cdcf5f388e6194dbb1e7261d9a32e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 50

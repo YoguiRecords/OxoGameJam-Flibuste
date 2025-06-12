@@ -18,6 +18,7 @@ public class InputService : MonoBehaviour
     public event System.Action<Vector2> OnCharacterLook;
     public event System.Action OnCharacterJump;
     public event System.Action OnCharacterInteract;
+    public event System.Action OnCharacterDrop;
     public event System.Action<bool> OnCharacterSprint;
 
     public event System.Action<Vector2> OnBoatSteer;
@@ -56,6 +57,7 @@ public class InputService : MonoBehaviour
 
         playerControls.Character.Jump.performed += _ => OnCharacterJump?.Invoke();
         playerControls.Character.Interact.performed += _ => OnCharacterInteract?.Invoke();
+        playerControls.Character.Drop.performed += _ => OnCharacterDrop ?.Invoke();
 
         playerControls.Character.Sprint.performed += _ => OnCharacterSprint?.Invoke(true);
         playerControls.Character.Sprint.canceled += _ => OnCharacterSprint?.Invoke(false);
@@ -95,6 +97,7 @@ public class InputService : MonoBehaviour
         OnCharacterLook = null;
         OnCharacterJump = null;
         OnCharacterInteract = null;
+        OnCharacterDrop = null;
         OnCharacterSprint = null;
 
         OnBoatSteer = null;
