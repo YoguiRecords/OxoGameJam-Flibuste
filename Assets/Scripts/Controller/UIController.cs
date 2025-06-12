@@ -147,7 +147,7 @@ public class UIController : MonoBehaviour
         Time.timeScale = 1f;
 
         var inputService = GameServiceLocator.Get<InputService>();
-        inputService?.SwitchToActionMap("Character"); 
+        inputService?.SwitchToActionMap(E_InputType.CHARACTER); 
 
         gameObject.SetActive(false);
 
