@@ -85,6 +85,10 @@ public class EnemyBoatAI : MonoBehaviour
 
     private void Awake()
     {
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<BoxCollider>().size = new Vector3(4f, 3f, 8f);
+        GetComponent<BoxCollider>().center = new Vector3(0f, -1f, 0f);
+
         InitializeComponents();
         InitializeArrays();
         InitializeMasts();
