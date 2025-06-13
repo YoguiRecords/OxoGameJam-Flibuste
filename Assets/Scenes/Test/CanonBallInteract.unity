@@ -938,6 +938,10 @@ PrefabInstance:
       propertyPath: sprintMultiplier
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5714780848297051938, guid: ab7809d7e597ffc469fbfe52a9280469, type: 3}
+      propertyPath: m_boatLayerMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6684414282337912133, guid: ab7809d7e597ffc469fbfe52a9280469, type: 3}
       propertyPath: m_IsActive
       value: 0
