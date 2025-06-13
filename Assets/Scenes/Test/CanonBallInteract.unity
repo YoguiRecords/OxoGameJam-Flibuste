@@ -148,8 +148,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1429233066}
   - {fileID: 1839701997}
+  - {fileID: 1429233066}
   - {fileID: 2106336369}
   - {fileID: 652600850}
   - {fileID: 1460276302}
@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 354806247}
   - component: {fileID: 354806246}
   - component: {fileID: 354806245}
-  m_Layer: 6
+  m_Layer: 4
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,6 +282,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u26F5 BOAT"
       objectReference: {fileID: 0}
+    - target: {fileID: 1715446516318432443, guid: f8f46767e147e70449fd6f14ae08a2cc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3896741152574357347, guid: f8f46767e147e70449fd6f14ae08a2cc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.711292
@@ -321,6 +325,10 @@ PrefabInstance:
     - target: {fileID: 3896741152574357347, guid: f8f46767e147e70449fd6f14ae08a2cc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8186902905362361767, guid: f8f46767e147e70449fd6f14ae08a2cc, type: 3}
+      propertyPath: m_windSensitivity
+      value: 5000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -397,7 +405,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3381398905206105286, guid: 6617cc3f38acc824f9f7af12da4ce174, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -446,7 +454,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3490971737012724555, guid: ca20ca7080f00e8489029aff07608581, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6529844874708546278, guid: ca20ca7080f00e8489029aff07608581, type: 3}
       propertyPath: m_LocalScale.x
@@ -618,7 +626,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1460276299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1085,6 +1093,52 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1736243477
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1736243479}
+  - component: {fileID: 1736243478}
+  m_Layer: 0
+  m_Name: WindZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!182 &1736243478
+WindZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736243477}
+  m_Enabled: 1
+  m_Mode: 0
+  m_Radius: 20
+  m_WindMain: 1
+  m_WindTurbulence: 0.1
+  m_WindPulseMagnitude: 0.5
+  m_WindPulseFrequency: 0.01
+--- !u!4 &1736243479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736243477}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1750762800
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1275,6 +1329,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Terrain
       objectReference: {fileID: 0}
+    - target: {fileID: 6688606683309276682, guid: 5d2238b8cc52ccf42b7e0fff7fd6c505, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1300,7 +1358,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2106336365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1444,7 +1502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7246487771902407552, guid: 36e6b0577e8d4824b9e2ad13a3036474, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7977546750278892637, guid: 36e6b0577e8d4824b9e2ad13a3036474, type: 3}
       propertyPath: m_LocalScale.x
@@ -1514,7 +1572,8 @@ SceneRoots:
   - {fileID: 1750762800}
   - {fileID: 1728974478}
   - {fileID: 354806248}
+  - {fileID: 260841004}
   - {fileID: 1636719092}
   - {fileID: 1054164880}
-  - {fileID: 260841004}
   - {fileID: 2084717904}
+  - {fileID: 1736243479}
