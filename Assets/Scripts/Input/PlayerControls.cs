@@ -997,54 +997,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""CanonRange"",
-            ""id"": ""c395393f-5d58-4b4b-b616-3aa57ee85b00"",
-            ""actions"": [
-                {
-                    ""name"": ""Shoot_Right"",
-                    ""type"": ""Button"",
-                    ""id"": ""5c30f911-4896-4388-916a-9334cdeef25d"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Shoot_Left"",
-                    ""type"": ""Button"",
-                    ""id"": ""b07635e3-e4d8-4b06-86f9-229962b4fb42"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""c9a43110-e2bd-41bf-841a-a9f96793a498"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Shoot_Right"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fc03ef46-e92b-4c08-8ed9-47686f36e7c3"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Shoot_Left"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": [
@@ -1135,10 +1087,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_CANON_Look = m_CANON.FindAction("Look", throwIfNotFound: true);
         m_CANON_Shoot = m_CANON.FindAction("Shoot", throwIfNotFound: true);
         m_CANON_Cancel = m_CANON.FindAction("Cancel", throwIfNotFound: true);
-        // CanonRange
-        m_CanonRange = asset.FindActionMap("CanonRange", throwIfNotFound: true);
-        m_CanonRange_Shoot_Right = m_CanonRange.FindAction("Shoot_Right", throwIfNotFound: true);
-        m_CanonRange_Shoot_Left = m_CanonRange.FindAction("Shoot_Left", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -1147,7 +1095,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, PlayerControls.UI.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Boat.enabled, "This will cause a leak and performance issues, PlayerControls.Boat.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_CANON.enabled, "This will cause a leak and performance issues, PlayerControls.CANON.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_CanonRange.enabled, "This will cause a leak and performance issues, PlayerControls.CanonRange.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1746,113 +1693,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="CANONActions" /> instance referencing this action map.
     /// </summary>
     public CANONActions @CANON => new CANONActions(this);
-
-    // CanonRange
-    private readonly InputActionMap m_CanonRange;
-    private List<ICanonRangeActions> m_CanonRangeActionsCallbackInterfaces = new List<ICanonRangeActions>();
-    private readonly InputAction m_CanonRange_Shoot_Right;
-    private readonly InputAction m_CanonRange_Shoot_Left;
-    /// <summary>
-    /// Provides access to input actions defined in input action map "CanonRange".
-    /// </summary>
-    public struct CanonRangeActions
-    {
-        private @PlayerControls m_Wrapper;
-
-        /// <summary>
-        /// Construct a new instance of the input action map wrapper class.
-        /// </summary>
-        public CanonRangeActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        /// <summary>
-        /// Provides access to the underlying input action "CanonRange/Shoot_Right".
-        /// </summary>
-        public InputAction @Shoot_Right => m_Wrapper.m_CanonRange_Shoot_Right;
-        /// <summary>
-        /// Provides access to the underlying input action "CanonRange/Shoot_Left".
-        /// </summary>
-        public InputAction @Shoot_Left => m_Wrapper.m_CanonRange_Shoot_Left;
-        /// <summary>
-        /// Provides access to the underlying input action map instance.
-        /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_CanonRange; }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
-        public void Enable() { Get().Enable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
-        public void Disable() { Get().Disable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
-        public bool enabled => Get().enabled;
-        /// <summary>
-        /// Implicitly converts an <see ref="CanonRangeActions" /> to an <see ref="InputActionMap" /> instance.
-        /// </summary>
-        public static implicit operator InputActionMap(CanonRangeActions set) { return set.Get(); }
-        /// <summary>
-        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <param name="instance">Callback instance.</param>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
-        /// </remarks>
-        /// <seealso cref="CanonRangeActions" />
-        public void AddCallbacks(ICanonRangeActions instance)
-        {
-            if (instance == null || m_Wrapper.m_CanonRangeActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_CanonRangeActionsCallbackInterfaces.Add(instance);
-            @Shoot_Right.started += instance.OnShoot_Right;
-            @Shoot_Right.performed += instance.OnShoot_Right;
-            @Shoot_Right.canceled += instance.OnShoot_Right;
-            @Shoot_Left.started += instance.OnShoot_Left;
-            @Shoot_Left.performed += instance.OnShoot_Left;
-            @Shoot_Left.canceled += instance.OnShoot_Left;
-        }
-
-        /// <summary>
-        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <remarks>
-        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
-        /// </remarks>
-        /// <seealso cref="CanonRangeActions" />
-        private void UnregisterCallbacks(ICanonRangeActions instance)
-        {
-            @Shoot_Right.started -= instance.OnShoot_Right;
-            @Shoot_Right.performed -= instance.OnShoot_Right;
-            @Shoot_Right.canceled -= instance.OnShoot_Right;
-            @Shoot_Left.started -= instance.OnShoot_Left;
-            @Shoot_Left.performed -= instance.OnShoot_Left;
-            @Shoot_Left.canceled -= instance.OnShoot_Left;
-        }
-
-        /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="CanonRangeActions.UnregisterCallbacks(ICanonRangeActions)" />.
-        /// </summary>
-        /// <seealso cref="CanonRangeActions.UnregisterCallbacks(ICanonRangeActions)" />
-        public void RemoveCallbacks(ICanonRangeActions instance)
-        {
-            if (m_Wrapper.m_CanonRangeActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        /// <summary>
-        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
-        /// </summary>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
-        /// </remarks>
-        /// <seealso cref="CanonRangeActions.AddCallbacks(ICanonRangeActions)" />
-        /// <seealso cref="CanonRangeActions.RemoveCallbacks(ICanonRangeActions)" />
-        /// <seealso cref="CanonRangeActions.UnregisterCallbacks(ICanonRangeActions)" />
-        public void SetCallbacks(ICanonRangeActions instance)
-        {
-            foreach (var item in m_Wrapper.m_CanonRangeActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_CanonRangeActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    /// <summary>
-    /// Provides a new <see cref="CanonRangeActions" /> instance referencing this action map.
-    /// </summary>
-    public CanonRangeActions @CanonRange => new CanonRangeActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -2068,27 +1908,5 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCancel(InputAction.CallbackContext context);
-    }
-    /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "CanonRange" which allows adding and removing callbacks.
-    /// </summary>
-    /// <seealso cref="CanonRangeActions.AddCallbacks(ICanonRangeActions)" />
-    /// <seealso cref="CanonRangeActions.RemoveCallbacks(ICanonRangeActions)" />
-    public interface ICanonRangeActions
-    {
-        /// <summary>
-        /// Method invoked when associated input action "Shoot_Right" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnShoot_Right(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Shoot_Left" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnShoot_Left(InputAction.CallbackContext context);
     }
 }
