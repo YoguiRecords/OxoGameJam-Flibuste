@@ -17,6 +17,7 @@ public class InputService : MonoBehaviour
     public event System.Action<Vector2> OnCharacterLook;
     public event System.Action OnCharacterJump;
     public event System.Action OnCharacterInteract;
+    public event System.Action OnCharacterDrop;
     public event System.Action<bool> OnCharacterSprint;
 
     public event System.Action<Vector2> OnBoatSteer;
@@ -56,9 +57,17 @@ public class InputService : MonoBehaviour
 
         m_playerControls.Character.Jump.performed += _ => OnCharacterJump?.Invoke();
         m_playerControls.Character.Interact.performed += _ => OnCharacterInteract?.Invoke();
+        m_playerControls.Character.Drop.performed += _ => OnCharacterDrop?.Invoke();
 
         m_playerControls.Character.Sprint.performed += _ => OnCharacterSprint?.Invoke(true);
         m_playerControls.Character.Sprint.canceled += _ => OnCharacterSprint?.Invoke(false);
+
+        m_playerControls.CANON.Shoot.performed += _ => OnCanonFire?.Invoke();
+        m_playerControls.CANON.Cancel.performed += _ => OnCanonCancel?.Invoke();
+
+        m_playerControls.CANON.Look.performed += ctx => OnCanonAim?.Invoke(ctx.ReadValue<Vector2>());
+        m_playerControls.CANON.Look.canceled += _ => OnCanonAim?.Invoke(Vector2.zero);
+
 
         m_playerControls.Boat.Steer.performed += ctx => OnBoatSteer?.Invoke(ctx.ReadValue<Vector2>());
         m_playerControls.Boat.Steer.canceled += _ => OnBoatSteer?.Invoke(Vector2.zero);
@@ -93,6 +102,7 @@ public class InputService : MonoBehaviour
         OnCharacterLook = null;
         OnCharacterJump = null;
         OnCharacterInteract = null;
+        OnCharacterDrop = null;
         OnCharacterSprint = null;
 
         OnBoatSteer = null;
@@ -119,6 +129,7 @@ public class InputService : MonoBehaviour
         m_playerControls.Character.Disable();
         m_playerControls.Boat.Disable();
         m_playerControls.UI.Disable();
+        m_playerControls.CANON.Disable();
 
         var newMap = GetActionMap(inputType);
         if (newMap != null)
@@ -144,7 +155,7 @@ public class InputService : MonoBehaviour
             E_InputType.CHARACTER => m_playerControls.Character,
             E_InputType.UI => m_playerControls.UI,
             E_InputType.BOAT => m_playerControls.Boat,
-            E_InputType.CANON => null,
+            E_InputType.CANON => m_playerControls.CANON,
             _ => null
         };
     }

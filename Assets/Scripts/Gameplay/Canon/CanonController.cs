@@ -64,8 +64,18 @@ public class CanonController : MonoBehaviour, IShootable, IInteractable, IRotabl
 
     private void SetPosition()
     {
-        GameServiceLocator.Get<InputService>().OnCharacterLook += Rotate;
         m_controler.position = m_shootPos.position;
+        m_controler.rotation = m_shootPos.rotation;
+        GameServiceLocator.Get<InputService>().OnCanonAim += Rotate;
+        GameServiceLocator.Get<InputService>().OnCanonFire += Shoot;
+        GameServiceLocator.Get<InputService>().OnCanonCancel += QuitPosition;
+    }
+
+    private void QuitPosition()
+    {
+        GameServiceLocator.Get<InputService>().OnCanonAim -= Rotate;
+        GameServiceLocator.Get<InputService>().OnCanonFire -= Shoot;
+        GameServiceLocator.Get<InputService>().OnCanonCancel -= QuitPosition;
     }
 
     public void Rotate(Vector2 rot)
