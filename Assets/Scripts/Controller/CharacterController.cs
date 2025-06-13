@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -202,6 +203,16 @@ public class CharacterController : MonoBehaviour, IPlayer
     {
         m_objectOnTheHands = obj;
         (m_objectOnTheHands as CanonBall).Initialize(GetHands());
+        GameServiceLocator.Get<InputService>().OnCharacterDrop += Drop;
+
+
+    }
+
+    private void Drop()
+    {
+        m_objectOnTheHands.Drop();
+        m_objectOnTheHands = null;
+        GameServiceLocator.Get<InputService>().OnCharacterDrop -= Drop;
     }
 
     public Transform GetHands()

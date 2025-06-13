@@ -76,7 +76,6 @@ public class CanonController : MonoBehaviour, IShootable, IInteractable, IRotabl
         GameServiceLocator.Get<InputService>().OnCanonAim -= Rotate;
         GameServiceLocator.Get<InputService>().OnCanonFire -= Shoot;
         GameServiceLocator.Get<InputService>().OnCanonCancel -= QuitPosition;
-
     }
 
     public void Rotate(Vector2 rot)
